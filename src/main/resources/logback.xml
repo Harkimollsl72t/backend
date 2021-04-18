@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property resource="application.properties" />
+	<property resource="application-${spring.profiles.active}.properties"/>
+	<property name="LOG_DIR" value="${logging.logback.path}"/>
+	<property name="LOG_NAME" value="${logging.logback.name}"/>
+
+    <!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} line%L - %msg%n</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- 系统日志 -->
+	<appender name="system" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/${LOG_NAME}.log</File>
+		<layout>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} line%L - %msg%n</Pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/%d{yyyyMMdd}/${LOG_NAME}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	<!-- 数据库日志 -->
+	<appender name="db" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/${LOG_NAME}_db.log</File>
+		<layout>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} line%L - %msg%n</Pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/%d{yyyyMMdd}/${LOG_NAME}_db.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	<!-- AllLog -->
+	<appender name="all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/${LOG_NAME}_all.log</File>
+		<layout>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} line%L - %msg%n</Pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/%d{yyyyMMdd}/${LOG_NAME}_all.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	<!-- 异常日志 -->
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<File>${LOG_DIR}/${LOG_NAME}_error.log</File>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{0} line%L - %msg%n</Pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/%d{yyyyMMdd}/${LOG_NAME}_error.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- 系统日志 -->
+	<logger name="com.zwxu" level="debug" addtivity="false">
+		<appender-ref ref="system" />
+	</logger>
+	<!-- 数据库日志 -->
+	<logger name="org.apache.ibatis" level="debug" addtivity="false">
+		<appender-ref ref="db"/>
+	</logger>
+	<logger name="org.mybatis.spring" level="debug" addtivity="false">
+		<appender-ref ref="db"/>
+	</logger>
+	
+	 <!-- 根日志 -->
+	<root level="debug">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="error" />
+		<appender-ref ref="all" />
+	</root>
+ </configuration>
