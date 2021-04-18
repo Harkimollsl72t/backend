@@ -35,7 +35,7 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-        <!-- spring boot 冲突 mybatis.spring-boot-starter.version-->
+        <!-- spring boot 冲突 mybatis.spring-boot-starter.version(包含logback1.1.7)-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -62,7 +62,7 @@
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
-
+		<!-- (包含junit4.12) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
