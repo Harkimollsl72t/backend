@@ -105,6 +105,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- 添加主清单文件 -->
 				<executions>
                         <execution>
                             <goals>
